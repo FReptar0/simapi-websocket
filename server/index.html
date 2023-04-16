@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.IO Test</title>
+  <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1>Mensajes recibidos:</h1>
+  <ul id="message-list"></ul>
+
+  <script>
+    const socket = io('http://192.168.1.83:3000');
+    const messageList = document.getElementById('message-list');
+
+    socket.on('connect', () => {
+      console.log('Cliente conectado');
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Cliente desconectado');
+    });
+
+    // Escuchar el evento 'record_updated' y mostrar los mensajes recibidos
+    socket.on('record_updated', (message) => {
+      console.log('Mensaje recibido:', message);
+      
+      const listItem = document.createElement('li');
+      listItem.textContent = message;
+      messageList.appendChild(listItem);
+    });
+  </script>
+</body>
+</html>
